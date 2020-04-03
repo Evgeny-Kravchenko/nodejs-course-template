@@ -21,4 +21,13 @@ const updateUser = async (id, name, login, password) => {
   return await usersRepo.updateUser({ id, name, login, password });
 };
 
-module.exports = { getAll, getUser, createUser, updateUser };
+const deleteUser = async id => {
+  const user = await usersRepo.getUser(id);
+  const isDelete = await usersRepo.deleteUser(id);
+  if (isDelete) {
+    delete user.password;
+    return user;
+  }
+};
+
+module.exports = { getAll, getUser, createUser, updateUser, deleteUser };

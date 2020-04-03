@@ -27,4 +27,9 @@ const updateUser = async user => {
   return users.find(item => item.id === id);
 };
 
-module.exports = { getAll, getUser, createUser, updateUser };
+const deleteUser = async id => {
+  users = users.filter(item => item.id !== id);
+  return true;
+};
+
+module.exports = { getAll, getUser, createUser, updateUser, deleteUser };
