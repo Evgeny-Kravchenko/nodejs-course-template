@@ -1,7 +1,6 @@
-const users = [];
+let users = [];
 
 const getAll = async () => {
-  // TODO: mock implementation. should be replaced during task development
   return users;
 };
 
@@ -15,4 +14,17 @@ const createUser = async user => {
   return { id, login, name };
 };
 
-module.exports = { getAll, getUser, createUser };
+const updateUser = async user => {
+  const { id, login, name, password } = user;
+  users = users.map(item => {
+    if (id === item.id) {
+      item.login = login || item.login;
+      item.name = name || item.name;
+      item.password = password || item.password;
+    }
+    return item;
+  });
+  return users.find(item => item.id === id);
+};
+
+module.exports = { getAll, getUser, createUser, updateUser };

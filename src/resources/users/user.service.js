@@ -17,4 +17,8 @@ const createUser = async (name, login, password) => {
   return await usersRepo.createUser(user);
 };
 
-module.exports = { getAll, getUser, createUser };
+const updateUser = async (id, name, login, password) => {
+  return await usersRepo.updateUser({ id, name, login, password });
+};
+
+module.exports = { getAll, getUser, createUser, updateUser };
