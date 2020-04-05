@@ -9,4 +9,8 @@ const getTasksByBoardId = async boardId => {
   return tasks.filter(item => item.boardId === boardId);
 };
 
-module.exports = { createTask, getTasksByBoardId };
+const getTaskById = async taskId => {
+  return tasks.find(item => item.id === taskId);
+};
+
+module.exports = { createTask, getTasksByBoardId, getTaskById };

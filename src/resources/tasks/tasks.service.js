@@ -12,4 +12,8 @@ const getTasksByBoardId = boardId => {
   return tasks;
 };
 
-module.exports = { createTask, getTasksByBoardId };
+const getTaskById = taskId => {
+  return tasksRepo.getTaskById(taskId);
+};
+
+module.exports = { createTask, getTasksByBoardId, getTaskById };
