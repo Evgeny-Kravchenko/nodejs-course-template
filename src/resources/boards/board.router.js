@@ -2,6 +2,9 @@ const router = require('express').Router();
 const Board = require('./board.model');
 const boardsService = require('./board.service');
 const { isBoard } = require('./validator');
+const tasksRouter = require('../tasks/tasks.router');
+
+router.use('/:id/tasks', tasksRouter);
 
 router.route('/').get(async (req, res) => {
   const board = await boardsService.getAll();

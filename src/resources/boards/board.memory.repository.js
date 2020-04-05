@@ -40,4 +40,19 @@ const deleteBoard = async id => {
   return startLength !== deletedLength;
 };
 
-module.exports = { getAll, createBoard, getBoard, updateBoard, deleteBoard };
+const isValidParameters = (boardId, columnId) => {
+  const boardIndex = boards.findIndex(item => item.id === boardId);
+  if (boardIndex !== -1) {
+    return boards[boardIndex].columns.some(item => item.id === columnId);
+  }
+  return false;
+};
+
+module.exports = {
+  getAll,
+  createBoard,
+  getBoard,
+  updateBoard,
+  deleteBoard,
+  isValidParameters
+};
