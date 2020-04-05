@@ -19,4 +19,11 @@ router.route('/').post(async (req, res) => {
   res.json(board);
 });
 
+router.route('/:id').put(async (req, res) => {
+  const idBoard = req.params.id;
+  const { title, columns } = req.body;
+  const updateBoard = await boardsService.updateBoard(idBoard, title, columns);
+  res.json(updateBoard);
+});
+
 module.exports = router;

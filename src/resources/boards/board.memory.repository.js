@@ -1,4 +1,4 @@
-const boards = [];
+let boards = [];
 
 const getAll = async () => {
   return boards;
@@ -13,4 +13,24 @@ const createBoard = async board => {
   return board;
 };
 
-module.exports = { getAll, createBoard, getBoard };
+const updateBoard = async data => {
+  const { idBoard, title, columns } = data;
+  boards = boards.map(item => {
+    if (idBoard === item.id) {
+      item.title = title || item.title;
+      columns.forEach(columnUpdate => {
+        item.columns.map(column => {
+          if (columnUpdate.id === column.id) {
+            column.title = columnUpdate.title || column.title;
+            column.order = columnUpdate.order || column.order;
+          }
+          return column;
+        });
+      });
+    }
+    return item;
+  });
+  return boards.find(item => item.id === idBoard);
+};
+
+module.exports = { getAll, createBoard, getBoard, updateBoard };
