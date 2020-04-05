@@ -21,12 +21,10 @@ const updateBoard = (idBoard, title, columns) => {
   return boardRepo.updateBoard({ idBoard, title, columns });
 };
 
-const deleteBoard = id => {
+const deleteBoard = async id => {
   const board = boardRepo.getBoard(id);
-  const isDelete = boardRepo.deleteBoard(id);
-  if (isDelete) {
-    return board;
-  }
+  const isDeleted = await boardRepo.deleteBoard(id);
+  return isDeleted ? board : false;
 };
 
 module.exports = { getAll, createBoard, getBoard, updateBoard, deleteBoard };

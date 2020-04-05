@@ -34,8 +34,10 @@ const updateBoard = async data => {
 };
 
 const deleteBoard = async id => {
+  const startLength = boards.length;
   boards = boards.filter(item => item.id !== id);
-  return true;
+  const deletedLength = boards.length;
+  return startLength !== deletedLength;
 };
 
 module.exports = { getAll, createBoard, getBoard, updateBoard, deleteBoard };

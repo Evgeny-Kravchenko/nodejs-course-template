@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Board = require('./board.model');
 const boardsService = require('./board.service');
+const { isBoard } = require('./validator');
 
 router.route('/').get(async (req, res) => {
   const board = await boardsService.getAll();
@@ -10,9 +11,7 @@ router.route('/').get(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const id = req.params.id;
   const board = await boardsService.getBoard(id);
-  if (!board) {
-    res.status(404).end();
-  }
+  isBoard(board, res);
   res.json(board);
 });
 
@@ -31,8 +30,9 @@ router.route('/:id').put(async (req, res) => {
 
 router.route('/:id').delete(async (req, res) => {
   const id = req.params.id;
-  const user = await boardsService.deleteBoard(id);
-  res.json({ message: 'Board was removed', user });
+  const board = await boardsService.deleteBoard(id);
+  isBoard(board, res);
+  res.json({ message: 'Board was removed', board });
 });
 
 module.exports = router;
