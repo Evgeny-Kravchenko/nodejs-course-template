@@ -21,4 +21,12 @@ const updateBoard = (idBoard, title, columns) => {
   return boardRepo.updateBoard({ idBoard, title, columns });
 };
 
-module.exports = { getAll, createBoard, getBoard, updateBoard };
+const deleteBoard = id => {
+  const board = boardRepo.getBoard(id);
+  const isDelete = boardRepo.deleteBoard(id);
+  if (isDelete) {
+    return board;
+  }
+};
+
+module.exports = { getAll, createBoard, getBoard, updateBoard, deleteBoard };

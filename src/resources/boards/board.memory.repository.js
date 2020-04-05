@@ -33,4 +33,9 @@ const updateBoard = async data => {
   return boards.find(item => item.id === idBoard);
 };
 
-module.exports = { getAll, createBoard, getBoard, updateBoard };
+const deleteBoard = async id => {
+  boards = boards.filter(item => item.id !== id);
+  return true;
+};
+
+module.exports = { getAll, createBoard, getBoard, updateBoard, deleteBoard };
