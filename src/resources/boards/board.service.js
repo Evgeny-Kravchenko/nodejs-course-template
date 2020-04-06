@@ -1,6 +1,7 @@
 const boardRepo = require('./board.memory.repository');
 const Column = require('./column.model');
 const Board = require('./board.model');
+const tasksService = require('../tasks/tasks.service');
 
 const getAll = () => boardRepo.getAll();
 
@@ -24,6 +25,9 @@ const updateBoard = (idBoard, title, columns) => {
 const deleteBoard = async id => {
   const board = boardRepo.getBoard(id);
   const isDeleted = await boardRepo.deleteBoard(id);
+  if (isDeleted) {
+    tasksService.deleteTasksByBoardId(id);
+  }
   return isDeleted ? board : false;
 };
 

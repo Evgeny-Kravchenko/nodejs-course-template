@@ -1,5 +1,6 @@
 const usersRepo = require('./user.memory.repository');
 const User = require('./user.model');
+const tasksService = require('../tasks/tasks.service');
 
 const getAll = () => usersRepo.getAll();
 
@@ -25,6 +26,7 @@ const deleteUser = id => {
   const user = usersRepo.getUser(id);
   const isDelete = usersRepo.deleteUser(id);
   if (isDelete) {
+    tasksService.unassignTasks(id);
     delete user.password;
     return user;
   }

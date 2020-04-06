@@ -1,7 +1,7 @@
-const isValidParameters = (task, res) => {
+const isTask = (task, res) => {
   if (!task) {
-    res.status(400);
+    res.status(404);
   }
 };
 
-module.exports = { isValidParameters };
+module.exports = { isTask };
