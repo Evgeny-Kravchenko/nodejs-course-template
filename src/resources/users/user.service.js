@@ -6,11 +6,7 @@ const getAll = () => usersRepo.getAll();
 
 const getUser = id => {
   const user = usersRepo.getUser(id);
-  if (!user) {
-    return {};
-  }
-  delete user.password;
-  return user;
+  return user || {};
 };
 
 const createUser = (name, login, password) => {
@@ -27,7 +23,6 @@ const deleteUser = id => {
   const isDelete = usersRepo.deleteUser(id);
   if (isDelete) {
     tasksService.unassignTasks(id);
-    delete user.password;
     return user;
   }
 };

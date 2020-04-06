@@ -28,8 +28,10 @@ const updateUser = async user => {
 };
 
 const deleteUser = async id => {
+  const startLength = users.length;
   users = users.filter(item => item.id !== id);
-  return true;
+  const afterDeletedLength = users.length;
+  return startLength !== afterDeletedLength;
 };
 
 module.exports = { getAll, getUser, createUser, updateUser, deleteUser };

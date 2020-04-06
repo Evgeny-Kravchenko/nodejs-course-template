@@ -1,6 +1,6 @@
 const router = require('express').Router({ mergeParams: true });
 const tasksService = require('./tasks.service');
-const validator = require('./tasks.validator');
+const { isTask } = require('./tasks.validator');
 
 router.route('/').get(async (req, res) => {
   const boardId = req.params.id;
@@ -11,7 +11,7 @@ router.route('/').get(async (req, res) => {
 router.route('/:taskId').get(async (req, res) => {
   const { taskId } = req.params;
   const task = await tasksService.getTaskById(taskId);
-  validator.isTask(task, res);
+  isTask(task, res);
   await res.json(task);
 });
 

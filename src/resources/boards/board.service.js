@@ -5,17 +5,17 @@ const tasksService = require('../tasks/tasks.service');
 
 const getAll = () => boardRepo.getAll();
 
-const getBoard = async id => {
-  return await boardRepo.getBoard(id);
+const getBoard = id => {
+  return boardRepo.getBoard(id);
 };
 
-const createBoard = async data => {
+const createBoard = data => {
   let { columns } = data;
   const { title } = data;
   if (columns) {
-    columns = await columns.map(item => new Column(item));
+    columns = columns.map(item => new Column(item));
   }
-  return await boardRepo.createBoard(new Board({ title, columns }));
+  return boardRepo.createBoard(new Board({ title, columns }));
 };
 
 const updateBoard = (idBoard, title, columns) => {
