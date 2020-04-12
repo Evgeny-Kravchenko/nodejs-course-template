@@ -1,12 +1,13 @@
 const { logger } = require('../logger/index');
-
-const logRequest = (req, res, next) => {
+// eslint-disable-next-line
+const logErrors = (err, req, res, next) => {
   const { body, query, originalUrl, method } = req;
-  logger.info({
+  logger.error({
+    status: err.message,
+    statusText: err.name,
     method,
     message: JSON.stringify({ originalUrl, body, query })
   });
-  next();
 };
 
-module.exports = { logRequest };
+module.exports = { logErrors };

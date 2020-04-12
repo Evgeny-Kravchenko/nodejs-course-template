@@ -5,6 +5,9 @@ const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const { logRequest } = require('./logger/log-request');
+const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
+const { handlerErrors } = require('./resources/handlerErrors');
+const { logger } = require('./logger/index');
 
 const app = express();
 
@@ -27,5 +30,15 @@ app.use(logRequest);
 app.use('/users', userRouter);
 
 app.use('/boards', boardRouter);
+
+app.use(handlerErrors);
+
+app.use((err, req, res) => {
+  logger.error({
+    status: `${INTERNAL_SERVER_ERROR}`,
+    message: getStatusText(INTERNAL_SERVER_ERROR)
+  });
+  res.status(INTERNAL_SERVER_ERROR).send(getStatusText(INTERNAL_SERVER_ERROR));
+});
 
 module.exports = app;
