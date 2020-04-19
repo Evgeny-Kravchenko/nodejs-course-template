@@ -25,7 +25,7 @@ router.route('/:id').get(
     if (!board) {
       throw new ClientError(NOT_FOUND);
     }
-    await res.status(OK).json(board);
+    await res.status(OK).json(Board.toResponse(board));
   })
 );
 
@@ -33,7 +33,7 @@ router.route('/').post(
   catchErrors(async (req, res) => {
     const { title, columns } = req.body;
     const board = await boardsService.createBoard({ title, columns });
-    await res.json(board);
+    await res.json(Board.toResponse(board));
   })
 );
 
@@ -57,11 +57,11 @@ router.route('/:id').put(
 router.route('/:id').delete(
   catchErrors(async (req, res) => {
     const id = req.params.id;
-    const board = await boardsService.deleteBoard(id);
-    if (!board) {
+    const isDeleted = await boardsService.deleteBoard(id);
+    if (!isDeleted) {
       throw new ClientError(NOT_FOUND);
     }
-    await res.status(NO_CONTENT).json({ message: 'Board was removed', board });
+    await res.status(NO_CONTENT).json({ message: 'Board was removed' });
   })
 );
 

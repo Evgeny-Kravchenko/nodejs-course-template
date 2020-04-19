@@ -3,6 +3,7 @@ const tasksService = require('./tasks.service');
 const { catchErrors } = require('../catch-errors');
 const { NOT_FOUND, BAD_REQUEST, NO_CONTENT, OK } = require('http-status-codes');
 const { ClientError } = require('../error-classes');
+const Tasks = require('./tasks.model');
 
 router.route('/').get(
   catchErrors(async (req, res) => {
@@ -11,7 +12,7 @@ router.route('/').get(
     if (!tasks) {
       throw new ClientError(NOT_FOUND);
     }
-    await res.status(OK).json(tasks);
+    await res.status(OK).json(tasks.map(Tasks.toResponse));
   })
 );
 
@@ -22,7 +23,7 @@ router.route('/:taskId').get(
     if (!task) {
       throw new ClientError(NOT_FOUND);
     }
-    await res.status(OK).json(task);
+    await res.status(OK).json(Tasks.toResponse(task));
   })
 );
 
@@ -41,7 +42,7 @@ router.route('/').post(
       boardId,
       columnId
     });
-    await res.status(OK).json(task);
+    await res.status(OK).json(Tasks.toResponse(task));
   })
 );
 

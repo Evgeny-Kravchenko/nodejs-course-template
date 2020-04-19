@@ -21,7 +21,7 @@ const updateUser = (id, name, login, password) => {
 const deleteUser = async id => {
   const isDelete = await usersRepo.deleteUser(id);
   if (isDelete) {
-    tasksService.unassignTasks(id);
+    await tasksService.unassignTasks(id);
     return isDelete;
   }
 };
