@@ -138,9 +138,9 @@ describe('Boards suite', () => {
         });
 
       // Test
-      await request.delete(routes.boards.delete(boardId)).then(res => {
-        return expect(res.status).oneOf([200, 204]);
-      });
+      await request
+        .delete(routes.boards.delete(boardId))
+        .then(res => expect(res.status).oneOf([200, 204]));
 
       await request.get(routes.boards.getById(boardId)).expect(404);
     });

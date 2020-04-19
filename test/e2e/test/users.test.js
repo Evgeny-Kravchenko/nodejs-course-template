@@ -43,7 +43,6 @@ describe('Users suite', () => {
 
     it('should get a user by id', async () => {
       // Setup:
-
       let userId;
 
       // Create the user
