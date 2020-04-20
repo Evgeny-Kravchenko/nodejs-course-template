@@ -60,8 +60,8 @@ router.route('/:id').put(
 router.route('/:id').delete(
   catchErrors(async (req, res) => {
     const id = req.params.id;
-    const user = await usersService.deleteUser(id);
-    if (!user) {
+    const isDelete = await usersService.deleteUser(id);
+    if (!isDelete) {
       throw new ClientError(NOT_FOUND);
     }
     res.status(NO_CONTENT).send(getStatusText(NO_CONTENT));
