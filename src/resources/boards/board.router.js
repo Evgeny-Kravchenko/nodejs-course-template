@@ -3,8 +3,8 @@ const Board = require('./board.model');
 const boardsService = require('./board.service');
 const tasksRouter = require('../tasks/tasks.router');
 const { NOT_FOUND, BAD_REQUEST, OK, NO_CONTENT } = require('http-status-codes');
-const { ClientError } = require('../error-classes');
-const { catchErrors } = require('../catch-errors');
+const { ClientError } = require('../../error-classes');
+const { catchErrors } = require('../../middlewares/catch-errors');
 
 router.use('/:id/tasks', tasksRouter);
 

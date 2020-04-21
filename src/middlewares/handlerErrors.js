@@ -1,5 +1,5 @@
-const { ClientError } = require('./error-classes');
-const { logger } = require('../logger/index');
+const { ClientError } = require('../error-classes');
+const { logger } = require('../logger');
 
 const handlerErrors = (err, req, res, next) => {
   if (err instanceof ClientError) {

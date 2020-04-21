@@ -8,8 +8,8 @@ const {
   NO_CONTENT,
   getStatusText
 } = require('http-status-codes');
-const { ClientError } = require('../error-classes');
-const { catchErrors } = require('../catch-errors');
+const { ClientError } = require('../../error-classes');
+const { catchErrors } = require('../../middlewares/catch-errors');
 
 router.route('/').get(
   catchErrors(async (req, res) => {

@@ -1,4 +1,4 @@
-const { logger } = require('../logger/index');
+const { logger } = require('../logger');
 // eslint-disable-next-line
 const logErrors = (err, req, res, next) => {
   const { body, query, originalUrl, method } = req;

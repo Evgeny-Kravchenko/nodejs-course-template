@@ -4,9 +4,10 @@ const path = require('path');
 const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
-const { logRequest } = require('./logger/log-request');
-const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
-const { handlerErrors } = require('./resources/handlerErrors');
+const { startServer } = require('./middlewares/start-server');
+const { logRequest } = require('./middlewares/log-request');
+const { handlerErrors } = require('./middlewares/handlerErrors');
+const { unknownError } = require('./middlewares/unknown-error');
 const { logger } = require('./logger/index');
 
 process.on('uncaughtException', err => {
@@ -39,13 +40,7 @@ app.use(express.json());
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
-});
+app.use('/', startServer);
 
 app.use(logRequest);
 
@@ -55,13 +50,6 @@ app.use('/boards', boardRouter);
 
 app.use(handlerErrors);
 
-// eslint-disable-next-line
-app.use((err, req, res, next) => {
-  logger.error({
-    status: `${INTERNAL_SERVER_ERROR}`,
-    message: getStatusText(INTERNAL_SERVER_ERROR)
-  });
-  res.status(INTERNAL_SERVER_ERROR).send(getStatusText(INTERNAL_SERVER_ERROR));
-});
+app.use(unknownError);
 
 module.exports = app;
