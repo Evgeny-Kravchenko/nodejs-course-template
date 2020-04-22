@@ -30,7 +30,7 @@ process.on('unhandledRejection', err => {
   logger.on('finish', () => exit(1));
 });
 
-// throw new Error('I am asynchronous error and I am elusive');
+// Promise.reject('I am asynchronous error and I am elusive too');
 
 const app = express();
 
