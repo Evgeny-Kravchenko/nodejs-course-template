@@ -31,4 +31,15 @@ const deleteUser = async id => {
   }
 };
 
-module.exports = { getAll, getUser, createUser, updateUser, deleteUser };
+const isUserPresentFunc = user => {
+  return usersRepo.isUserPresentFunc(user);
+};
+
+module.exports = {
+  getAll,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  isUserPresentFunc
+};

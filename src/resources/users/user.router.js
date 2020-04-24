@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
+
 const {
   NOT_FOUND,
   BAD_REQUEST,

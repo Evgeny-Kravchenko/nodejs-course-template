@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { MONGO_CONNECTION_STRING } = require('../common/config');
+const usersService = require('../resources/users/user.service');
 
 const connectToDB = cb => {
   mongoose.connect(MONGO_CONNECTION_STRING, {
@@ -14,6 +15,7 @@ const connectToDB = cb => {
       console.log('Database dropped success');
       cb();
     });
+    await usersService.createUser('BOSS', 'admin', 'admin');
   });
 };
 
