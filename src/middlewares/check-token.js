@@ -19,15 +19,15 @@ const checkToken = async (req, res, next) => {
   }
   const token = authorizationData[1];
   if (token) {
-    isTokenValid(token, JWT_SECRET_KEY)
-      .then(() => {
-        next();
-      })
-      .catch(() => {
-        throw new ClientError(UNAUTHORIZED);
-      });
+    try {
+      await isTokenValid(token, JWT_SECRET_KEY);
+    } catch (err) {
+      throw new ClientError(UNAUTHORIZED);
+    }
+    next();
+    return;
   }
-  next();
+  throw new ClientError(UNAUTHORIZED);
 };
 
 module.exports = { checkToken };

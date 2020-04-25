@@ -15,7 +15,7 @@ router.route('/').post(
       throw new ClientError(FORBIDDEN);
     }
     const token = await authService.getToken(user);
-    res.send(token);
+    res.send({ token });
     next();
   })
 );

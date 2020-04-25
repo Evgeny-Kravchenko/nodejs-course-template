@@ -22,7 +22,7 @@ const getToken = user => {
   const userId = user._id;
   const { login } = user;
   const payload = { userId, login };
-  return jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: 100 });
+  return jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: 500 });
 };
 
 module.exports = { isUserPresentFunc, getToken };
