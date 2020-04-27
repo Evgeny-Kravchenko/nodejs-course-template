@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
+
 const {
   NOT_FOUND,
   BAD_REQUEST,
@@ -8,8 +9,8 @@ const {
   NO_CONTENT,
   getStatusText
 } = require('http-status-codes');
-const { ClientError } = require('../error-classes');
-const { catchErrors } = require('../catch-errors');
+const { ClientError } = require('../../error-classes');
+const { catchErrors } = require('../../middlewares/catch-errors');
 
 router.route('/').get(
   catchErrors(async (req, res) => {

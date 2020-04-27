@@ -8,6 +8,9 @@ const logger = createLogger({
     format.prettyPrint()
   ),
   transports: [
+    new transports.Console({
+      level: 'error'
+    }),
     new transports.File({
       filename: './src/logger/request.log',
       level: 'info'

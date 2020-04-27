@@ -4,32 +4,13 @@ const path = require('path');
 const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
-const { logRequest } = require('./logger/log-request');
-const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
-const { handlerErrors } = require('./resources/handlerErrors');
-const { logger } = require('./logger/index');
-
-process.on('uncaughtException', err => {
-  logger.error({
-    name: 'uncaughtException',
-    message: err.message
-  });
-  const { exit } = process;
-  logger.on('finish', () => exit(1));
-});
-
-// throw new Error('I am synchronous error and I am elusive');
-
-process.on('unhandledRejection', err => {
-  logger.error({
-    name: 'unhandledRejection',
-    message: err.message
-  });
-  const { exit } = process;
-  logger.on('finish', () => exit(1));
-});
-
-// throw new Error('I am asynchronous error and I am elusive');
+const authenticateRouter = require('./resources/authenticate/authenticate.router');
+const { startServer } = require('./middlewares/start-server');
+const { logRequest } = require('./middlewares/log-request');
+const { handlerErrors } = require('./middlewares/handlerErrors');
+const { unknownError } = require('./middlewares/unknown-error');
+const { catchErrors } = require('./middlewares/catch-errors');
+const { checkToken } = require('./middlewares/check-token');
 
 const app = express();
 
@@ -37,31 +18,20 @@ const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
 
+app.use('/login', authenticateRouter);
+
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
-});
+app.use('/', startServer);
 
 app.use(logRequest);
 
-app.use('/users', userRouter);
+app.use('/users', catchErrors(checkToken), userRouter);
 
-app.use('/boards', boardRouter);
+app.use('/boards', catchErrors(checkToken), boardRouter);
 
 app.use(handlerErrors);
 
-// eslint-disable-next-line
-app.use((err, req, res, next) => {
-  logger.error({
-    status: `${INTERNAL_SERVER_ERROR}`,
-    message: getStatusText(INTERNAL_SERVER_ERROR)
-  });
-  res.status(INTERNAL_SERVER_ERROR).send(getStatusText(INTERNAL_SERVER_ERROR));
-});
+app.use(unknownError);
 
 module.exports = app;

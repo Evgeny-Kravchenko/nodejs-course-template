@@ -21,4 +21,16 @@ const deleteUser = async id => {
   return deleteResult.deletedCount;
 };
 
-module.exports = { getAll, getUser, createUser, updateUser, deleteUser };
+const isUserPresentFunc = async user => {
+  const { login } = user;
+  return User.findOne({ login });
+};
+
+module.exports = {
+  getAll,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  isUserPresentFunc
+};
